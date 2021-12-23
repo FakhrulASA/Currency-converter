@@ -1,5 +1,8 @@
 package com.siddiqei.currencyconverter.model
 
-data class ConverterRequestModel(
-    var api_key: String = ""
-)
+ class ConverterRequestModel {
+     var apiKey:String = ""
+     var from:String = ""
+     var to:String = ""
+     var amount:String = ""
+ }
