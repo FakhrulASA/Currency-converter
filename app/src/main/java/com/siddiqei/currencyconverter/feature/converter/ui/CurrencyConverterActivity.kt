@@ -7,9 +7,10 @@ import com.siddiqei.currencyconverter.databinding.ActivityMainBinding
 import android.widget.ArrayAdapter
 import androidx.activity.viewModels
 import com.siddiqei.currencyconverter.R
+import com.siddiqei.currencyconverter.base.BaseConverter
 
 
-class CurrencyConverterActivity : AppCompatActivity() {
+class CurrencyConverterActivity : AppCompatActivity(), BaseConverter {
 
     private lateinit var binding: ActivityMainBinding
     private val model: CurrencyConverterViewModel by viewModels()
@@ -38,6 +39,7 @@ class CurrencyConverterActivity : AppCompatActivity() {
         return ArrayAdapter(
             this, R.layout.spinner_item,
             data
-        ) //Your resource name
+        )
     }
+
 }
