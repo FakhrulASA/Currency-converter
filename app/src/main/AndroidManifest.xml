@@ -10,7 +10,7 @@
         android:supportsRtl="true"
         android:theme="@style/Theme.CurrencyConverter">
         <activity
-            android:name=".feature.converter.ui.MainActivity"
+            android:name=".feature.converter.ui.CurrencyConverterActivity"
             android:exported="true">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
