@@ -24,7 +24,9 @@ class CurrencyConverterViewModel: ViewModel() {
         isLoading.postValue(true)
         CoroutineScope(Dispatchers.IO).launch {
             converterUseCase.invoke(converterRequestModel, {
+                //when error will occur
                 error.postValue("Cannot proceed the request")
+                //when there will be no error
                 convertedValue.postValue(it.result.toString())
                 isLoading.postValue(false)
             }, {

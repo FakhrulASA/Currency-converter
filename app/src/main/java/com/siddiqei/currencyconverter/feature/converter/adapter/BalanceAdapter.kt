@@ -11,6 +11,10 @@ import kotlinx.coroutines.NonDisposableHandle.parent
 class BalanceAdapter(var context: Context,var balanceList:List<String>):
     RecyclerView.Adapter<BalanceAdapter.BalanceViewHolder>() {
     class BalanceViewHolder(private val binding: ContentItemBalanceBinding): RecyclerView.ViewHolder(binding.root) {
+        /**
+         * We are binding view from viewholder because it will decrease the overhead
+         * when larger items needs to be binned
+         */
         fun bind(list:List<String>, postition:Int){
             binding.balanceText.text= list[postition]
         }
