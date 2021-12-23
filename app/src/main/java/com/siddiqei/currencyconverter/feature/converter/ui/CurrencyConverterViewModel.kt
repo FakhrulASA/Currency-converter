@@ -20,7 +20,7 @@ class CurrencyConverterViewModel: ViewModel() {
         listOfCurrency.postValue(context.resources.getStringArray(R.array.currency).toList())
     }
 
-    fun getConvertedValue(converterRequestModel: ConverterRequestModel){
+    fun getConvertedValue(converterRequestModel: ConverterRequestModel,onSuccess:(String)->Unit){
         isLoading.postValue(true)
         CoroutineScope(Dispatchers.IO).launch {
             converterUseCase.invoke(converterRequestModel, {
@@ -29,6 +29,7 @@ class CurrencyConverterViewModel: ViewModel() {
                 //when there will be no error
                 convertedValue.postValue(it.result.toString())
                 isLoading.postValue(false)
+                onSuccess.invoke(it.result.toString())
             }, {
                 error.postValue("Cannot proceed the request")
                 isLoading.postValue(false)

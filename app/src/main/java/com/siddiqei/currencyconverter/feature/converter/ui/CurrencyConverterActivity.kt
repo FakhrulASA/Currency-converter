@@ -3,6 +3,7 @@ package com.siddiqei.currencyconverter.feature.converter.ui
 import android.app.AlertDialog
 import android.content.DialogInterface
 import android.os.Bundle
+import android.view.View
 import android.widget.ArrayAdapter
 import android.widget.Toast
 import androidx.activity.viewModels
@@ -15,7 +16,12 @@ import com.siddiqei.currencyconverter.base.BaseConverter
 import com.siddiqei.currencyconverter.databinding.ActivityMainBinding
 import com.siddiqei.currencyconverter.feature.converter.adapter.BalanceAdapter
 import com.siddiqei.currencyconverter.model.ConverterRequestModel
+import com.siddiqei.currencyconverter.util.CreateToast
 import com.siddiqei.currencyconverter.util.InternetChecker.isInternetAvailable
+import kotlinx.coroutines.CoroutineScope
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.launch
+import kotlinx.coroutines.withContext
 import kotlin.math.abs
 
 
@@ -34,11 +40,26 @@ class CurrencyConverterActivity : AppCompatActivity(), BaseConverter {
             if (isInternetAvailable(this)) {
                 convertCurrency()
             } else {
-                Toast.makeText(this, "No Internet Available", Toast.LENGTH_LONG).show()
+                CreateToast.showToast(this,"No Internet Available")
             }
         }
+        showLoader()
 
     }
+
+    private fun showLoader() {
+        model.isLoading.observe(this) {
+            when (it) {
+                false -> {
+                    binding.progressBar.visibility = View.VISIBLE
+                }
+                else -> {
+                    binding.progressBar.visibility = View.GONE
+                }
+            }
+        }
+    }
+
     /**
      * Here we are initializing our recyclerviewr adapter
      */
@@ -70,27 +91,32 @@ class CurrencyConverterActivity : AppCompatActivity(), BaseConverter {
      */
     private fun convertCurrency() {
         try {
-            model.getConvertedValue(ConverterRequestModel().apply {
-                apiKey = "7435347754-514c9fc349-r4km25"
-                from = binding.spinner.selectedItem.toString()
-                to = binding.spinner2.selectedItem.toString()
-                amount = abs(binding.editTextTextPersonName.text.toString().toDouble()).toString()
-            })
-
-            model.convertedValue.observe(this) {
-                var objectList: HashMap<String, String> =
-                    gson.fromJson(it, object : TypeToken<HashMap<String, String>>() {}.type)
-                binding.editTextTextPersonName2.setText(objectList[binding.spinner2.selectedItem.toString()])
-                objectList.clear()
-                AlertDialog.Builder(this)
-                    .setTitle("Currency converted")
-                    .setMessage("You have converted ${binding.editTextTextPersonName.text} ${binding.spinner.selectedItem} to ${binding.editTextTextPersonName2.text} ${binding.spinner2.selectedItem}") // Specifying a listener allows you to take an action before dismissing the dialog.
-                    // The dialog is automatically dismissed when a dialog button is clicked.
-                    .setPositiveButton("Done",
-                        DialogInterface.OnClickListener { dialog, which ->
-                            // Continue with delete operation
-                        }) // A null listener allows the button to dismiss the dialog and take no further action.
-                    .show()
+            if(!binding.editTextTextPersonName.text.isNullOrEmpty()){
+                model.getConvertedValue(ConverterRequestModel().apply {
+                    apiKey = "7435347754-514c9fc349-r4km25"
+                    from = binding.spinner.selectedItem.toString()
+                    to = binding.spinner2.selectedItem.toString()
+                    amount = abs(binding.editTextTextPersonName.text.toString().toDouble()).toString()
+                }){
+                    var objectList: HashMap<String, String> =
+                        gson.fromJson(it, object : TypeToken<HashMap<String, String>>() {}.type)
+                    binding.editTextTextPersonName2.setText(objectList[binding.spinner2.selectedItem.toString()])
+                    objectList.clear()
+                    CoroutineScope(Dispatchers.Main).launch {
+                        AlertDialog.Builder(this@CurrencyConverterActivity)
+                            .setTitle("Currency converted")
+                            .setMessage("You have converted ${binding.editTextTextPersonName.text} ${binding.spinner.selectedItem} to ${binding.editTextTextPersonName2.text} ${binding.spinner2.selectedItem}") // Specifying a listener allows you to take an action before dismissing the dialog.
+                            // The dialog is automatically dismissed when a dialog button is clicked.
+                            .setPositiveButton("Done",
+                                DialogInterface.OnClickListener { dialog, which ->
+                                    binding.progressBar.visibility = View.GONE
+                                    // Continue with delete operation
+                                }) // A null listener allows the button to dismiss the dialog and take no further action.
+                            .show()
+                    }
+                }
+            }else{
+                CreateToast.showToast(this,"Please insert value!")
             }
         } catch (e: Exception) {
             e.printStackTrace()
