@@ -1,7 +1,6 @@
 package com.siddiqei.currencyconverter.feature.converter.ui
 
 import android.content.Context
-import androidx.appcompat.app.AppCompatActivity
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import com.siddiqei.currencyconverter.R

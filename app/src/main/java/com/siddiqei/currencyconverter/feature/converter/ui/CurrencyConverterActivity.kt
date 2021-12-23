@@ -12,7 +12,7 @@ import com.siddiqei.currencyconverter.R
 class CurrencyConverterActivity : AppCompatActivity() {
 
     private lateinit var binding: ActivityMainBinding
-    val model: CurrencyConverterViewModel by viewModels()
+    private val model: CurrencyConverterViewModel by viewModels()
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         initLayout()
@@ -34,11 +34,10 @@ class CurrencyConverterActivity : AppCompatActivity() {
         binding.spinner2.adapter = arrayAdapter
     }
 
-    private fun initAdapter(data:List<String>): ArrayAdapter<String> {
-        val arrayAdapter = ArrayAdapter(
+    private fun initAdapter(data: List<String>): ArrayAdapter<String> {
+        return ArrayAdapter(
             this, R.layout.spinner_item,
             data
         ) //Your resource name
-        return arrayAdapter
     }
 }
