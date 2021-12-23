@@ -12,10 +12,10 @@
 
 ## Screenshots
 <p align="center">
-<img src="https://github.com/FakhrulASA/Currency-converter/blob/master/111.png" width="300" title="App Demo">
+<img src="https://github.com/FakhrulASA/Currency-converter/blob/master/111.png" width="400" title="App Demo">
   
-<img src="https://github.com/FakhrulASA/Currency-converter/blob/master/222.png" width="300" title="App Demo">
+<img src="https://github.com/FakhrulASA/Currency-converter/blob/master/222.png" width="400" title="App Demo">
   
-<img src="https://github.com/FakhrulASA/Currency-converter/blob/master/333.png" width="300" title="App Demo">
+<img src="https://github.com/FakhrulASA/Currency-converter/blob/master/333.png" width="400" title="App Demo">
 </p>
 
