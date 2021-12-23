@@ -5,18 +5,22 @@ import androidx.appcompat.app.AppCompatActivity
 import com.siddiqei.currencyconverter.databinding.ActivityMainBinding
 
 import android.widget.ArrayAdapter
+import androidx.activity.viewModels
 import com.siddiqei.currencyconverter.R
 
 
 class CurrencyConverterActivity : AppCompatActivity() {
 
     private lateinit var binding: ActivityMainBinding
-
+    val model: CurrencyConverterViewModel by viewModels()
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         initLayout()
-        val arrayAdapter = initAdapter()
-        initSpinner(arrayAdapter)
+        model.getCurrencyUnit(this)
+        model.listOfCurrency.observe(this){
+            val arrayAdapter = initAdapter(it)
+            initSpinner(arrayAdapter)
+        }
     }
 
     private fun initLayout() {
@@ -30,10 +34,10 @@ class CurrencyConverterActivity : AppCompatActivity() {
         binding.spinner2.adapter = arrayAdapter
     }
 
-    private fun initAdapter(): ArrayAdapter<String> {
+    private fun initAdapter(data:List<String>): ArrayAdapter<String> {
         val arrayAdapter = ArrayAdapter(
             this, R.layout.spinner_item,
-            resources.getStringArray(R.array.currency)
+            data
         ) //Your resource name
         return arrayAdapter
     }
