@@ -1,0 +1,24 @@
+<resources>
+    <string name="app_name">Currency Converter</string>
+
+    <string-array name="currency">
+        <item>USD</item>
+        <item>EUR</item>
+        <item>BDT</item>
+        <item>BBD</item>
+        <item>CLP</item>
+        <item>CNY</item>
+        <item>AUD</item>
+        <item>CRC</item>
+        <item>DKK</item>
+        <item>EGP</item>
+        <item>FJD</item>
+        <item>XCD</item>
+        <item>HTG</item>
+        <item>KES</item>
+        <item>LBP</item>
+        <item>NPR</item>
+        <item>INR</item>
+        <item>JPY</item>
+    </string-array>
+</resources>
